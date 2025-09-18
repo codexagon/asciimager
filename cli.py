@@ -1,6 +1,13 @@
 # command line parser
 
-import charsets
+# Charset choices
+SETS = {
+    "default": "@%#*+=-:. ",
+    "long": "@#$%&WM8B0QOZ?+=|i!;:,.'` ",
+    "block": "█▓▒░ ",
+    "dots": "⣿⠿⠟⠏⠇⠃⠁⠀",
+    "minimal": "@#:. ",
+}
 
 def parse_args(args):
     # Usage: asciimager <image>
@@ -8,7 +15,7 @@ def parse_args(args):
         print("Usage: asciimager <image>")
         exit(1)
     
-    charset = charsets.charset_default # default
+    charset = SETS["default"] # default
     chunk_size = (10, 20) # default
     
     for i in range(len(args)):
@@ -23,12 +30,8 @@ def parse_args(args):
                 
                 charset_choice = args[i + 1]
 
-                if charset_choice == "long":
-                    charset = charsets.charset_long
-                elif charset_choice == "block":
-                    charset = charsets.charset_block
-                elif charset_choice == "dots":
-                    charset = charsets.charset_dots
+                if charset_choice in SETS:
+                    charset = SETS[charset_choice]
                 else:
                     print("Invalid charset choice.")
                     exit(3)

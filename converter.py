@@ -1,6 +1,4 @@
 # convert image to ASCII
-import charsets
-
 def get_chunk_brightness(img, start_x, start_y, chunk_size):
     total_brightness, pixel_count = 0, 0
     chunk_width, chunk_height = chunk_size
