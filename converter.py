@@ -16,7 +16,7 @@ def brightness_to_char(brightness, charset):
     index = int((brightness * len(charset)) / 256)
     return charset[index]
 
-def convert_to_ascii(img, charset, chunk_size):
+def convert_to_ascii(img, charset, chunk_size, out_file=None):
     width, height = img.size
     chunk_width, chunk_height = chunk_size
 
@@ -33,8 +33,8 @@ def convert_to_ascii(img, charset, chunk_size):
 
             brightness = get_chunk_brightness(img, start_x, start_y, chunk_size)
             ascii_char = brightness_to_char(brightness, charset)
-            print(ascii_char, end="")
+            print(ascii_char, end="", file=out_file)
         
-        print()
+        print("", file=out_file)
 
 

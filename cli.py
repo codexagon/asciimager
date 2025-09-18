@@ -17,6 +17,8 @@ def parse_args(args):
     
     charset = SETS["default"] # default
     chunk_size = (10, 20) # default
+    write_to_file = False # default
+    output_file = None
     
     for i in range(len(args)):
         arg = args[i]
@@ -44,6 +46,14 @@ def parse_args(args):
                 chunk_size_choice = (int(args[i + 1]), int(args[i + 2]))
                 chunk_size = chunk_size_choice
 
+            elif flag == "save":
+                if (i + 1) >= len(args):
+                    print("Please provide a file name to save to.")
+                    exit(6)
+                
+                write_to_file = True
+                output_file = args[i + 1]
+
             else:
                 print(f"Invalid flag: {flag}. Please enter a valid flag.")
                 exit(5)
@@ -54,4 +64,6 @@ def parse_args(args):
         "image": args[0],
         "charset": charset,
         "chunk_size": chunk_size,
+        "write_to_file": write_to_file,
+        "output_file": output_file,
     }
