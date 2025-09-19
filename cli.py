@@ -9,15 +9,21 @@ SETS = {
     "minimal": "@#:. ",
 }
 
+valid_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp']
+
 def parse_args(args):
     # Usage: asciimager <image>
     if len(args) < 1:
         print("Usage: asciimager <image>")
         exit(1)
     
-    charset = SETS["default"] # default
-    chunk_size = (10, 20) # default
-    write_to_file = False # default
+
+    images = []
+
+    # Defaults
+    charset = SETS["default"]
+    chunk_size = (10, 20)
+    write_to_file = False
     output_file = None
     
     for i in range(len(args)):
@@ -57,11 +63,16 @@ def parse_args(args):
             else:
                 print(f"Invalid flag: {flag}. Please enter a valid flag.")
                 exit(5)
-
-
+        
+        elif any(arg.lower().endswith(extension) for extension in valid_extensions):
+            images.append(arg)
+        
+    if not images:
+        print("Please provide at least one image to render.")
+        exit(7)
 
     return {
-        "image": args[0],
+        "images": images,
         "charset": charset,
         "chunk_size": chunk_size,
         "write_to_file": write_to_file,
