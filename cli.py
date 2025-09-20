@@ -81,6 +81,10 @@ def parse_args(args):
                 if i + 1 >= len(args):
                     print("Please provide a file name to save to.")
                     exit(5)
+
+                if not args[i + 1].endswith((".txt", ".md")):
+                    print("Invalid file type. Can only write to text and markdown files.")
+                    exit(5)
                 
                 write_to_file = True
                 output_file = args[i + 1]
