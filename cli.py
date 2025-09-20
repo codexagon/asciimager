@@ -26,6 +26,7 @@ def parse_args(args):
     chunk_size = (10, 20)
     write_to_file = False
     output_file = None
+    save_mode = "append"
 
     i = 0
     while i < len(args):
@@ -86,6 +87,25 @@ def parse_args(args):
 
                 i += 2 # skip flag and value
 
+            elif flag == "save-mode":
+                if i + 1 >= len(args):
+                    print("Please provide a mode for saving.")
+                    exit(10)
+
+                if args[i + 1] not in ["append", "write"]:
+                    print(f"Invalid save mode: {args[i + 1]}.")
+                    print("Valid modes are: append, write")
+                    exit(10)
+
+                if not write_to_file:
+                    print("Cannot use this flag without or before the --save flag.")
+                    print("Make sure to enter this flag after the --save flag.")
+                    exit(10)
+
+                save_mode = args[i + 1]
+
+                i += 2 # skip flag and value
+
             else:
                 print(f"Invalid flag: {flag}. Please enter a valid flag.")
                 exit(6)
@@ -114,4 +134,5 @@ def parse_args(args):
         "chunk_size": chunk_size,
         "write_to_file": write_to_file,
         "output_file": output_file,
+        "save_mode": save_mode,
     }

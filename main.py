@@ -10,9 +10,10 @@ charset = details["charset"]
 chunk_size = details["chunk_size"]
 write_to_file = details["write_to_file"]
 output_file = details["output_file"]
+save_mode = details["save_mode"][0]
 
 if write_to_file:
-    f = open(output_file, "a")
+    f = open(output_file, save_mode)
 else:
     f = sys.stdout
 
