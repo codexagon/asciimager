@@ -1,4 +1,5 @@
 # command line parser
+import os
 
 # Charset choices
 SETS = {
@@ -25,12 +26,16 @@ def parse_args(args):
     chunk_size = (10, 20)
     write_to_file = False
     output_file = None
-    
-    for i in range(len(args)):
+
+    i = 0
+    while i < len(args):
         arg = args[i]
+
+        # Parse flags
         if arg.startswith("--"):
             flag = arg[2:]
 
+            # Set charset to be used
             if flag == "charset":
                 if (i + 1) >= len(args) or args[i + 1].startswith("--"):
                     print("Please provide a charset choice.")
@@ -41,35 +46,67 @@ def parse_args(args):
                 if charset_choice in SETS:
                     charset = SETS[charset_choice]
                 else:
-                    print("Invalid charset choice.")
+                    print(f"Invalid charset choice {charset_choice}.")
+                    print("Valid options are: long, block, dots, minimal")
                     exit(3)
-
+                
+                i += 2 # skip flag and value
+            
+            # Set chunk size to be used
             elif flag == "chunk-size":
                 if (i + 2) >= len(args):
                     print("Please provide the chunk size.")
                     exit(4)
+                
+                if args[i + 1].startswith("--") or args[i + 2].startswith("--"):
+                    print("Please provide two integers for the chunk size.")
+                    exit(4)
 
-                chunk_size_choice = (int(args[i + 1]), int(args[i + 2]))
-                chunk_size = chunk_size_choice
-
+                try:
+                    width, height = int(args[i + 1]), int(args[i + 2])
+                    if width <= 0 or height <= 0:
+                        print("Chunk size must be positive integers.")
+                        exit(4)
+                    
+                    chunk_size = (width, height)
+                except ValueError:
+                    print(f"Invalid chunk size: ({args[i + 1]} {args[i + 2]}). Please provide integers.")
+                    exit(4)
+                
+                i += 3 # skip flag and both values
+            
+            # Whether the output should be saved to a file
             elif flag == "save":
-                if (i + 1) >= len(args):
+                if i + 1 >= len(args):
                     print("Please provide a file name to save to.")
-                    exit(6)
+                    exit(5)
                 
                 write_to_file = True
                 output_file = args[i + 1]
 
+                i += 2 # skip flag and value
+
             else:
                 print(f"Invalid flag: {flag}. Please enter a valid flag.")
-                exit(5)
+                exit(6)
         
+        # Check if given image files have a valid extension
         elif any(arg.lower().endswith(extension) for extension in valid_extensions):
             images.append(arg)
+            i += 1
         
+        else:
+            print(f"Invalid argument: {arg}. Please enter valid arguments only.")
+            exit(7)
+
     if not images:
         print("Please provide at least one image to render.")
-        exit(7)
+        exit(8)
+
+    for img in images:
+        if not os.path.exists(img):
+            print(f"Error: file '{img}' not found")
+            exit(9)
 
     return {
         "images": images,
