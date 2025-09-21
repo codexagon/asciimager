@@ -14,8 +14,7 @@ valid_extensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp"]
 # Parse command-line arguments
 def parse_args(args):
     if len(args) < 1:
-        print("Usage: asciimager [options] <image>...")
-        exit(1)
+        show_error("invalid usage.\nUsage: asciimager [options] <image>...", 1)
     
     images = []
 
@@ -37,52 +36,43 @@ def parse_args(args):
             # Set charset to be used
             if flag == "charset":
                 if (i + 1) >= len(args) or args[i + 1].startswith("--"):
-                    print("Please provide a charset choice.")
-                    exit(2)
+                    show_error("no charset provided. Please provide a charset to use.", 2)
                 
                 charset_choice = args[i + 1]
 
                 if charset_choice in SETS:
                     charset = SETS[charset_choice]
                 else:
-                    print(f"Invalid charset choice {charset_choice}.")
-                    print("Valid options are: long, block, dots, minimal")
-                    exit(3)
+                    show_error(f"invalid charset '{charset_choice}'.\nValid options are: long, block, dots, minimal", 2)
                 
                 i += 2 # skip flag and value
             
             # Set chunk size to be used
             elif flag == "chunk-size":
                 if (i + 2) >= len(args):
-                    print("Please provide the chunk size.")
-                    exit(4)
+                    show_error("no chunk size provided. Please provide it.", 3)
                 
                 if args[i + 1].startswith("--") or args[i + 2].startswith("--"):
-                    print("Please provide two integers for the chunk size.")
-                    exit(4)
+                    show_error("please provide two positive integers for the chunk size.", 3)
 
                 try:
                     width, height = int(args[i + 1]), int(args[i + 2])
                     if width <= 0 or height <= 0:
-                        print("Chunk size must be positive integers.")
-                        exit(4)
+                        show_error("chunk size must be positive integers.", 3)
                     
                     chunk_size = (width, height)
                 except ValueError:
-                    print(f"Invalid chunk size: ({args[i + 1]} {args[i + 2]}). Please provide integers.")
-                    exit(4)
+                    show_error(f"invalid chunk size ({args[i + 1]} {args[i + 2]}). Please provide integers.", 3)
                 
                 i += 3 # skip flag and both values
             
             # Whether the output should be saved to a file
             elif flag == "save":
                 if i + 1 >= len(args):
-                    print("Please provide a file name to save to.")
-                    exit(5)
+                    show_error("no file provided. Please provide a file to save to.", 4)
 
                 if not args[i + 1].endswith((".txt", ".md")):
-                    print("Invalid file type. Can only write to text and markdown files.")
-                    exit(5)
+                    show_error("invalid file type. Can only write to text and markdown files.", 4)
                 
                 write_to_file = True
                 output_file = args[i + 1]
@@ -92,18 +82,14 @@ def parse_args(args):
             # Whether to append to the file or overwrite it
             elif flag == "save-mode":
                 if i + 1 >= len(args):
-                    print("Please provide a mode for saving.")
-                    exit(10)
+                    show_error("no save mode provided. Please provide a mode.", 5)
 
                 if args[i + 1] not in ["append", "write"]:
-                    print(f"Invalid save mode: {args[i + 1]}.")
-                    print("Valid modes are: append, write")
-                    exit(10)
+                    show_error(f"invalid save mode '{args[i + 1]}'.\nValid modes are: append, write", 5)
 
                 if not write_to_file:
-                    print("Cannot use this flag without or before the --save flag.")
-                    print("Make sure to enter this flag after the --save flag.")
-                    exit(10)
+                    show_error("cannot use this flag without or before the --save flag.\n" \
+                    "Make sure to enter --save-mode flag after the --save flag.", 5)
 
                 save_mode = args[i + 1]
 
@@ -114,8 +100,7 @@ def parse_args(args):
                 exit(0)
 
             else:
-                print(f"Invalid flag: {flag}. Please enter a valid flag.")
-                exit(6)
+                show_error(f"invalid flag '{flag}'. Please enter a valid flag.", 6)
         
         # Check if given image files have a valid extension
         elif any(arg.lower().endswith(extension) for extension in valid_extensions):
@@ -123,19 +108,16 @@ def parse_args(args):
             i += 1
         
         else:
-            print(f"Invalid argument: {arg}. Please enter valid arguments only.")
-            exit(7)
+            show_error(f"invalid argument {arg}. Please enter valid arguments only.", 7)
 
     # Check if at least one image is provided
     if not images:
-        print("Please provide at least one image to render.")
-        exit(8)
+        show_error("no images provided. Please provide at least one image.", 8)
 
     # Check if provided image files exist
     for img in images:
         if not os.path.exists(img):
-            print(f"Error: file '{img}' not found")
-            exit(9)
+            show_error(f"file '{img}' not found.", 9)
 
     return {
         "images": images,
@@ -145,6 +127,10 @@ def parse_args(args):
         "output_file": output_file,
         "save_mode": save_mode,
     }
+
+def show_error(message, exit_code=1):
+    print(f"Error: {message}")
+    exit(exit_code)
 
 def show_help():
     print(
