@@ -10,6 +10,7 @@ chunk_size = details["chunk_size"]
 write_to_file = details["write_to_file"]
 output_file = details["output_file"]
 save_mode = details["save_mode"][0]
+use_color = details["use_color"]
 
 if write_to_file:
     f = open(output_file, save_mode)
@@ -19,10 +20,11 @@ else:
 # Print each provided image to stdout or mentioned file
 for img_name in img_names:
     img = image.load(img_name)
+    rgb_img = image.rgb(img)
     gray_img = image.grayscale(img)
 
     print(img_name, file=f)
-    converter.convert_to_ascii(gray_img, charset, chunk_size, f)
+    converter.convert_to_ascii(rgb_img, gray_img, charset, chunk_size, use_color, f)
     print("", file=f)
 
 if write_to_file:

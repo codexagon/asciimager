@@ -24,6 +24,7 @@ def parse_args(args):
     write_to_file = False
     output_file = None
     save_mode = "append"
+    use_color = False
 
     i = 0
     while i < len(args):
@@ -99,6 +100,11 @@ def parse_args(args):
                 show_help()
                 exit(0)
 
+            elif flag == "color":
+                use_color = True
+
+                i += 1 # skip flag
+
             else:
                 show_error(f"invalid flag '{flag}'. Please enter a valid flag.", 6)
         
@@ -126,6 +132,7 @@ def parse_args(args):
         "write_to_file": write_to_file,
         "output_file": output_file,
         "save_mode": save_mode,
+        "use_color": use_color,
     }
 
 def show_error(message, exit_code=1):
@@ -147,6 +154,7 @@ Options:
     --chunk-size <width> <height>       Set the size of each chunk which is represented by one character
     --save <file>                       Save the generated ASCII art to a file instead of printing to stdout
     --save-mode <mode>                  Choose the file save mode (append or write)
+    --color                             Renders the ASCII art with color
     --help                              Brings up this text
 
 Note: There is no need to specify any files when using the --help flag.

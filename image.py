@@ -5,3 +5,6 @@ def load(img_path):
 
 def grayscale(img):
     return img.convert("L")
+
+def rgb(img):
+    return img.convert("RGB")
