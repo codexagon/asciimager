@@ -109,6 +109,10 @@ def parse_args(args):
 
                 i += 2 # skip flag and value
 
+            elif flag == "help":
+                show_help()
+                exit(0)
+
             else:
                 print(f"Invalid flag: {flag}. Please enter a valid flag.")
                 exit(6)
@@ -141,3 +145,24 @@ def parse_args(args):
         "output_file": output_file,
         "save_mode": save_mode,
     }
+
+def show_help():
+    print(
+        """
+asciimager - convert images to ASCII art from the terminal
+
+Usage: asciimager [options] <image>...
+
+Arguments:
+    <image>...                          One or more images to convert to ASCII art
+
+Options:
+    --charset <charset>                 The character set to be used to make the ASCII art
+    --chunk-size <width> <height>       Set the size of each chunk which is represented by one character
+    --save <file>                       Save the generated ASCII art to a file instead of printing to stdout
+    --save-mode <mode>                  Choose the file save mode (append or write)
+    --help                              Brings up this text
+
+Note: There is no need to specify any files when using the --help flag.
+        """
+    )
