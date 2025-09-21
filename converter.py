@@ -1,4 +1,4 @@
-# convert image to ASCII
+# Return the average brightness of all the pixels in a chunk
 def get_chunk_brightness(img, start_x, start_y, chunk_size):
     total_brightness, pixel_count = 0, 0
     chunk_width, chunk_height = chunk_size
@@ -10,9 +10,8 @@ def get_chunk_brightness(img, start_x, start_y, chunk_size):
         
     return total_brightness // pixel_count
 
-
+# Return a character to represent a chunk based on its brightness
 def brightness_to_char(brightness, charset):
-    # brightness / 256 == index / len(charset)
     index = int((brightness * len(charset)) / 256)
     return charset[index]
 

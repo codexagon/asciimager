@@ -1,4 +1,3 @@
-# asciimager - convert images to ASCII art
 import cli, image, converter
 
 import sys
@@ -17,12 +16,13 @@ if write_to_file:
 else:
     f = sys.stdout
 
+# Print each provided image to stdout or mentioned file
 for img_name in img_names:
     img = image.load(img_name)
     gray_img = image.grayscale(img)
 
     print(img_name, file=f)
-    converter.convert_to_ascii(gray_img, charset, chunk_size, out_file=f)
+    converter.convert_to_ascii(gray_img, charset, chunk_size, f)
     print("", file=f)
 
 if write_to_file:

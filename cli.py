@@ -1,7 +1,6 @@
-# command line parser
 import os
 
-# Charset choices
+# Available charsets
 SETS = {
     "default": "@%#*+=-:. ",
     "long": "@#$%&WM8B0QOZ?+=|i!;:,.'` ",
@@ -10,15 +9,14 @@ SETS = {
     "minimal": "@#:. ",
 }
 
-valid_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp']
+valid_extensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp"]
 
+# Parse command-line arguments
 def parse_args(args):
-    # Usage: asciimager <image>
     if len(args) < 1:
-        print("Usage: asciimager <image>")
+        print("Usage: asciimager [options] <image>...")
         exit(1)
     
-
     images = []
 
     # Defaults
@@ -34,7 +32,7 @@ def parse_args(args):
 
         # Parse flags
         if arg.startswith("--"):
-            flag = arg[2:]
+            flag = arg[2:] # extract the base flag text
 
             # Set charset to be used
             if flag == "charset":
@@ -91,6 +89,7 @@ def parse_args(args):
 
                 i += 2 # skip flag and value
 
+            # Whether to append to the file or overwrite it
             elif flag == "save-mode":
                 if i + 1 >= len(args):
                     print("Please provide a mode for saving.")
@@ -123,10 +122,12 @@ def parse_args(args):
             print(f"Invalid argument: {arg}. Please enter valid arguments only.")
             exit(7)
 
+    # Check if at least one image is provided
     if not images:
         print("Please provide at least one image to render.")
         exit(8)
 
+    # Check if provided image files exist
     for img in images:
         if not os.path.exists(img):
             print(f"Error: file '{img}' not found")
