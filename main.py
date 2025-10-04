@@ -11,11 +11,15 @@ write_to_file = details["write_to_file"]
 output_file = details["output_file"]
 save_mode = details["save_mode"][0]
 use_color = details["use_color"]
+inverse = details["inverse"]
 
 if write_to_file:
     f = open(output_file, save_mode)
 else:
     f = sys.stdout
+
+if inverse:
+    charset = charset[::-1]
 
 # Print each provided image to stdout or mentioned file
 for img_name in img_names:

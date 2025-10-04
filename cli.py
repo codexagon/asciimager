@@ -25,6 +25,7 @@ def parse_args(args):
     output_file = None
     save_mode = "append"
     use_color = False
+    inverse = False
 
     i = 0
     while i < len(args):
@@ -105,6 +106,11 @@ def parse_args(args):
 
                 i += 1 # skip flag
 
+            elif flag == "inverse":
+                inverse = True
+
+                i += 1 # skip flag
+
             else:
                 show_error(f"invalid flag '{flag}'. Please enter a valid flag.", 6)
         
@@ -133,6 +139,7 @@ def parse_args(args):
         "output_file": output_file,
         "save_mode": save_mode,
         "use_color": use_color,
+        "inverse": inverse,
     }
 
 def show_error(message, exit_code=1):
