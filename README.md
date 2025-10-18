@@ -10,6 +10,7 @@ Convert images to ASCII art from the command line.
 - Colored output to better recreate the original image
 - Process multiple images in a single command
 - Save output to text or markdown files
+- Show a low-resolution preview before full conversion
 
 ## Installation
 
@@ -43,6 +44,9 @@ asciimager [options] <image>...
 - `--save <file>` - Save ASCII art to file instead of printing to console
 - `--save-mode <mode>` - File save mode: append or write (default: write)
 - `--color` - Render the ASCII art in color
+- `--inverse` - Invert character brightness order, light becomes dark
+- `--preview` - Show a low-resolution preview of the ASCII art before conversion
+- `--help` - Display help information
 
 ### Examples
 
@@ -66,7 +70,7 @@ python main.py --charset block photo.jpg
 python main.py --chunk-size 8 16 photo.jpg
 ```
 
-**Use colored output**
+**Use colored output:**
 ```bash
 python main.py --color photo.jpg
 ```
@@ -77,9 +81,19 @@ python main.py --save output.txt photo.jpg
 python main.py --save ascii_art.md --save-mode append photo.jpg
 ```
 
+**Invert characters:**
+```bash
+python main.py --inverse photo.jpg
+```
+
+**Show low-resolution preview:**
+```bash
+python main.py --preview photo.jpg
+```
+
 **All at once:**
 ```bash
-python main.py --charset long --chunk-size 8 16 --color --save artwork.txt photo1.jpg photo2.png
+python main.py --charset long --chunk-size 8 16 --color --save artwork.txt --inverse --preview photo1.jpg photo2.png
 ```
 
 ## Character Sets
@@ -101,3 +115,6 @@ python main.py --charset long --chunk-size 8 16 --color --save artwork.txt photo
 
 - Python 3.6+
 - Pillow (PIL)
+
+## Notes
+- When using `--color` with `--save`, the output file will contain only the plain ASCII art without color codes. Color rendering is only applied to terminal output.
