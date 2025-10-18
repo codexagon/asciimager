@@ -1,3 +1,5 @@
+import sys
+
 # Return the average brightness of all the pixels in a chunk
 def get_chunk_brightness(img, start_x, start_y, chunk_size):
     total_brightness, pixel_count = 0, 0
@@ -59,9 +61,13 @@ def convert_to_ascii(img, gray_img, charset, chunk_size, use_color, out_file=Non
 
             if use_color:
                 average_color = get_chunk_average_color(img, start_x, start_y, chunk_size)
-                ascii_char = pixel_to_color_char(average_color, ascii_char)
-            
-            print(ascii_char, end="", file=out_file)
+                ascii_color_char = pixel_to_color_char(average_color, ascii_char)
+                if out_file == sys.stdout:
+                    print(ascii_color_char, end="", file=out_file)
+                else:
+                    print(ascii_char, end="", file=out_file)
+            else:
+                print(ascii_char, end="", file=out_file)
         
         print("", file=out_file)
 
