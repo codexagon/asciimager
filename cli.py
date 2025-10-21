@@ -9,7 +9,7 @@ SETS = {
     "minimal": "@#:. ",
 }
 
-valid_extensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp"]
+valid_extensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"]
 
 # Parse command-line arguments
 def parse_args(args):
