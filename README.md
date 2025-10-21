@@ -108,7 +108,7 @@ python main.py --charset long --chunk-size 8 16 --color --save artwork.txt --inv
 
 ## Supported Formats
 
-**Input:** JPEG, PNG, GIF, BMP  
+**Input:** JPEG, PNG, GIF, BMP, WebP
 **Output:** Plain text (.txt), Markdown (.md)
 
 ## Requirements
