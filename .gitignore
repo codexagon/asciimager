@@ -20,6 +20,7 @@ venv/
 *.bmp
 *.tiff
 *.svg
+*.webp
 
 .DS_Store
 Thumbs.db
