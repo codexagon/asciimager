@@ -45,6 +45,10 @@ def parse_args(args):
 
                 if charset_choice in SETS:
                     charset = SETS[charset_choice]
+                elif charset_choice.endswith(".txt"):
+                    charset_file = open(charset_choice, "r")
+                    charset = charset_file.read().strip()
+                    charset_file.close()
                 else:
                     show_error(f"invalid charset '{charset_choice}'.\nValid options are: long, block, dots, minimal", 2)
                 
