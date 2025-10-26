@@ -168,12 +168,39 @@ Arguments:
     <image>...                          One or more images to convert to ASCII art
 
 Options:
-    --charset <charset>                 The character set to be used to make the ASCII art
-    --chunk-size <width> <height>       Set the size of each chunk which is represented by one character
-    --save <file>                       Save the generated ASCII art to a file instead of printing to stdout
-    --save-mode <mode>                  Choose the file save mode (append or write)
-    --color                             Renders the ASCII art with color
-    --help                              Brings up this text
+    --charset <charset>
+        The character set to be used to make the ASCII art.
+        Note: Text files containing a custom charset are also accepted.
+
+    --chunk-size <width> <height>
+        Set the size of each chunk which is represented by one character
+
+    --save <file>
+        Save the generated ASCII art to a file instead of printing to stdout
+
+    --save-mode <mode>
+        Choose the file save mode (append or write)
+
+    --color
+        Renders the ASCII art with color
+
+    --inverse
+        Inverts the character set
+
+    --preview
+        Shows a low-resolution preview of the art before full generation
+
+    --help
+        Brings up this text
+
+Supported Formats:
+    Input:  JPEG, PNG, GIF, BMP, WebP
+    Output: Plain text (.txt), Markdown (.md)
+
+Examples:
+    asciimager photo.jpg
+    asciimager --color --charset block image.png
+    asciimager --preview --save output.txt photo.jpg
 
 Note: There is no need to specify any files when using the --help flag.
         """
