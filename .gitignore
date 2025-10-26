@@ -13,14 +13,7 @@ venv/
 *~
 *.iml
 
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.bmp
-*.tiff
-*.svg
-*.webp
+assets/
 
 .DS_Store
 Thumbs.db

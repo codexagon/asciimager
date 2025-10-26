@@ -106,6 +106,11 @@ python main.py --charset long --chunk-size 8 16 --color --save artwork.txt --inv
 | `dots` | `⣿⠿⠟⠏⠇⠃⠁⠀` |
 | `minimal` | `@#:. ` |
 
+A text file containing a character set can also be used:
+```bash
+python main.py --charset <filename>.txt image.jpg
+```
+
 ## Supported Formats
 
 **Input:** JPEG, PNG, GIF, BMP, WebP
